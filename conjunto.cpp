@@ -65,19 +65,19 @@ int numElems(const tConjunto & c)
 bool esUnitario(const tConjunto &c, int & e)
 {
 	bool unitario = false;
-	int aux = 0;
-	for (int i = 0; i < MAX; i++)
+	int aux = 0, i = 0;
+	while (i < MAX && aux <= 1)
 	{
 		if (c.elementos[i] == true)
 		{
 			aux++;
 			e = i + 1;
 		}
+		i++;
 	}
 	if (aux == 1)
 		unitario = true;
 	return unitario;
-	//return c.numElem == 1;
 }
 
 void mostrar(const tConjunto & c)
