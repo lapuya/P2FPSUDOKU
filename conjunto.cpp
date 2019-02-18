@@ -1,3 +1,5 @@
+// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
+
 #include "conjunto.h"
 #include <iostream>
 using namespace std;

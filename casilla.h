@@ -1,3 +1,5 @@
+// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
+
 #pragma once
 #include "conjunto.h"
 
