@@ -3,7 +3,7 @@
 #pragma once
 #include "conjunto.h"
 
-typedef enum {vacia, fija, rellena} tEstadoCasilla;
+typedef enum {c_vacia, c_fija, c_rellena} tEstadoCasilla;
 
 typedef struct
 {
