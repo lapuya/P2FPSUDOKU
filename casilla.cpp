@@ -17,7 +17,7 @@ void rellenaCasilla(tCasilla & casilla, char c, bool fija = false)
 {
 	int numEquivalente = charAEntero(c);
 
-	if(fija && c != ' '){
+	if(fija && c != ' '){							//
 		casilla.estado_casilla = c_fija;
 		casilla.numero = numEquivalente;
 	} else if (!fija && c != ' '){
