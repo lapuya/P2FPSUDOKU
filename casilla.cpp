@@ -7,6 +7,7 @@ using namespace std;
 void iniciaCasilla(tCasilla & casilla)
 {
 	casilla.estado_casilla = vacia;
+	
 	// Conjunto de valores posibles para la casilla
 }
 
