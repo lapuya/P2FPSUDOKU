@@ -17,6 +17,7 @@ bool cargarTablero(string nombreFichero, tTablero tablero)
 	bool abierto;
 	ifstream entrada;
 	string basura;
+	char c;
 
 	entrada.open(nombreFichero);
 	abierto = entrada.is_open();
@@ -26,7 +27,8 @@ bool cargarTablero(string nombreFichero, tTablero tablero)
 		{
 			for (int j = 0; j < MAX_COLUMNAS; j++)
 			{
-				entrada >> tablero[i][j].numero; // MIRAR ESTO
+				entrada >> c;
+				rellenaCasilla(tablero[i][j], c, fija = true);
 			}
 			getline(entrada, basura);
 		}
