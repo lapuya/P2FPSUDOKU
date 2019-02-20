@@ -46,7 +46,7 @@ void dibujarTablero(const tTablero tablero)
 	for (int i = 0; i < MAX_FILAS; i++)
 	{
 		for (int j = 0; j < MAX_COLUMNAS; j++)
-			cout << tablero[i][j].numero;
+			dibujaCasilla (tablero[i][j]);
 		cout << endl;
 	}
 }
