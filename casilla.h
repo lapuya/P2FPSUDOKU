@@ -13,6 +13,6 @@ typedef struct
 }tCasilla;
 
 void iniciaCasilla(tCasilla & casilla);
-void rellenaCasilla(tCasilla & casilla, char c, bool fija = false);
+void rellenaCasilla(tCasilla & casilla, char c, bool fija);
 void dibujaCasilla(const tCasilla & casilla);
 bool esSimple(const tCasilla & casilla, int & numero);
