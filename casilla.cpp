@@ -2,33 +2,37 @@
 
 #include "casilla.h"
 #include <iostream>
+#include <Windows.h>
 using namespace std;
 
 int charAEntero(char c);
+void colorFondo(int color);
 
 void iniciaCasilla(tCasilla & casilla)
 {
-	casilla.estado_casilla = vacia;
+	casilla.estado_casilla = c_vacia;
 	cjto_lleno(casilla.conjunto);
-	// Conjunto de valores posibles para la casilla
 }
 
 void rellenaCasilla(tCasilla & casilla, char c, bool fija = false)
 {
 	int numEquivalente = charAEntero(c);
 
-	if(fija && c != ' '){							//
+	if (fija && c != ' ') {
 		casilla.estado_casilla = c_fija;
 		casilla.numero = numEquivalente;
-	} else if (!fija && c != ' '){
+	}
+	else if (!fija && c != ' ') {
 		casilla.estado_casilla = c_rellena;
-		casilla.numro = numEquivalente;
-	} else
+		casilla.numero = numEquivalente;
+	}
+	else {
 		casilla.estado_casilla = c_vacia;
+		casilla.numero = 0;
+	}
 }
 
-
-int charAEntero(char c){
+int charAEntero(char c) {
 
 	int numero;
 
@@ -58,24 +62,26 @@ int charAEntero(char c){
 
 void dibujaCasilla(const tCasilla & casilla)
 {
-	if(casilla.estado_casilla == c_fija){
+	if (casilla.estado_casilla == c_fija) {
 		colorFondo(1);
 		cout << casilla.numero;
-	} else if (casilla.estado_casilla == c_rellena){
+	}
+	else if (casilla.estado_casilla == c_rellena) {
 		colorFondo(4);
 		cout << casilla.numero;
-	} else {
+	}
+	else {
 		cout << " ";
 	}
-
+	colorFondo(0);
 }
 
 bool esSimple(const tCasilla & casilla, int & numero)
 {
-	return esUnitario(casilla, numero);
+	return esUnitario(casilla.conjunto, numero);
 }
 
-void colorFondo(int color){
+void colorFondo(int color) {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(handle, 15 | (color << 4));
 }
