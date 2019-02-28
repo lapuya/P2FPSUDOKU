@@ -76,22 +76,23 @@ void dibujaCasilla(const tCasilla & casilla)
 	colorFondo(0);
 }
 
-bool esSimple(const tCasilla & casilla, int & numero)
-{
+bool esSimple(const tCasilla & casilla, int & numero) {
 	return esUnitario(casilla.conjunto, numero);
 }
 
-bool comprobarCasillaVacia(const tCasilla & casilla)
-{
+bool comprobarCasillaVacia(const tCasilla & casilla) {
 	return casilla.estado_casilla == c_vacia;
 }
 
-bool comprobarCasillaRellena(const tCasilla & casilla)
-{
+bool comprobarCasillaRellena(const tCasilla & casilla) {
 	return casilla.estado_casilla == c_rellena;
 }
 
 void colorFondo(int color) {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(handle, 15 | (color << 4));
+}
+
+void mostrarValores(const tCasilla & casilla){
+	mostrar(casilla.conjunto);
 }
