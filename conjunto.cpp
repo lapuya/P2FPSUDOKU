@@ -84,6 +84,7 @@ bool esUnitario(const tConjunto &c, int & e)
 
 void mostrar(const tConjunto & c)
 {
+
 	for (int i = 0; i < MAX; i++)
 		if (c.elementos[i] == true)
 			cout << i + 1 << " ";

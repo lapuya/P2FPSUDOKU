@@ -4,18 +4,24 @@
 #include <iostream>
 using namespace std;
 
+void mostrarInformacionSudoku(const tSudoku & sudoku);
 void mostrarSubmenuJugar();
 int submenuJuego();
 
 void iniciaJuego(tJuego & juego, const tSudoku & sudoku){
-	// Sudoku
-	juego.tablero_completo = false;
+	juego.tablero_relleno = false;
+	juego.sudoku = sudoku;
 	iniciaTablero(juego.tablero);
 }
 
 void mostrarJuego(const tJuego & juego){
-	// Informacion sudoku
+	mostrarInformacionSudoku(juego.sudoku);
 	dibujarTablero(juego.tablero);
+}
+
+void mostrarInformacionSudoku(const tSudoku & sudoku) {
+	cout << "Puntos: " << sudoku.puntos << endl;
+	cout << "Sudoku elegido: " << sudoku.nombre_archivo << endl;
 }
 
 bool cargaJuego(tJuego & juego, const tSudoku & sudoku){
@@ -28,30 +34,49 @@ bool cargaJuego(tJuego & juego, const tSudoku & sudoku){
 }
 
 int jugarUnSudoku(const tSudoku & sudoku){
-	int opcion;
+	int opcion, fila, col, c;
 	tJuego juego;
+	bool resuelto = false;
 
-	opcion = submenuJuego();
-	if (opcion == 1) {
-		mostrarPosibles(juego.tablero, fila, col);
-	}
-	else if (opcion == 2) {
-		ponerNum(juego.tablero, fila, col, c);
-	}
-	else if (opcion == 3) {
-		borrarNum(juego.tablero, fila, col);
-	}
-	else if (opcion == 4) {
+	iniciaJuego(juego, sudoku);
+	if (cargaJuego(juego, sudoku)) {
+		opcion = submenuJuego();
+		while (opcion != 0 || !resuelto) {
 
-	}
-	else if (opcion == 5) {
-		rellenarSimples(juego.tablero);
-	}
-	else {
-		// Puntos igual a 0
+			if (opcion == 1) {
+				introducirFilaCol(fila, col);
+				mostrarPosibles(juego.tablero, fila, col);
+			}
+			else if (opcion == 2) {
+				introducirFilaCol(fila, col);
+				if (!ponerNum(juego.tablero, fila, col, c)) {
+					cout << "No se ha podido poner el numero" << endl;
+				}
+			}
+			else if (opcion == 3) {
+				borrarNum(juego.tablero, fila, col);
+			}
+			else if (opcion == 4) {
+
+			}
+			else if (opcion == 5) {
+				rellenarSimples(juego.tablero);
+			}
+			else {
+				// Puntos igual a 0
+			}
+			opcion = submenuJuego();
+		}
 	}
 
 	return sudoku.puntos;
+}
+
+void introducirFilaCol(int & fila, int & col) {
+	cout << "Introduzca la fila: ";
+	cin >> fila;
+	cout << "Introduzca la columna: ";
+	cin >> col;
 }
 
 void mostrarSubmenuJugar(){

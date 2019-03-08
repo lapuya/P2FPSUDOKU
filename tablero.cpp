@@ -15,10 +15,10 @@ void iniciaTablero(tTablero tablero){
 			iniciaCasilla(tablero[i][j]);
 }
 
-bool cargarTablero(string nombreFichero, tTablero tablero){
+bool cargarTablero(string nombreFichero, tTablero tablero) {
 	bool abierto, fija;
 	ifstream entrada;
-	string basura;
+	string linea;
 	char c;
 
 	entrada.open(nombreFichero);
@@ -27,12 +27,12 @@ bool cargarTablero(string nombreFichero, tTablero tablero){
 	{
 		for (int i = 0; i < MAX_FILAS; i++)
 		{
+			getline(entrada, linea);
 			for (int j = 0; j < MAX_COLUMNAS; j++)
 			{
-				entrada >> c;
+				c = linea[j];
 				rellenaCasilla(tablero[i][j], c, fija = true);
 			}
-			getline(entrada, basura);
 		}
 	}
 	else
@@ -60,12 +60,15 @@ bool ponerNum(tTablero tablero, int fila, int col, int c){
 		posible = true;
 	}
 
+
+
 	return posible;
 }
 
 bool comprobarFilaColumna(int fila, int col) {
-	return fila >= 1 && fila <= 9 && col >= 1 && col <= 9;
+	return fila >= 0 && fila < MAX_FILAS && col >= 0 && col < MAX_COLUMNAS;
 }
+
 
 bool comprobarNumero(int c) {
 	return c >= 1 && c <= 9;
@@ -119,5 +122,4 @@ void rellenarSimples(tTablero tablero){
 			}
 		}
 	}
-	// Actualizar
 }

@@ -20,7 +20,7 @@ bool cargar(tListaSudokus & lista)
 	if (abierto)
 	{
 		for (int i = 0; i < MAX_FILAS; i++)
-				entrada >> lista.array_sudokus[i];
+			entrada >> lista.array_sudokus[i];
 	}
 	else
 		cout << "Hubo problemas al abrir el archivo o no existe." << endl;

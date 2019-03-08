@@ -16,7 +16,7 @@ typedef struct
 {
 	tSudoku sudoku;
 	tTablero tablero;
-	bool tablero_completo;
+	bool tablero_relleno;
 }tJuego;
 
 void iniciaJuego(tJuego & juego, const tSudoku & sudoku);
