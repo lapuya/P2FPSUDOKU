@@ -89,3 +89,11 @@ void mostrar(const tConjunto & c)
 		if (c.elementos[i] == true)
 			cout << i + 1 << " ";
 }
+
+void mostrarValoresPosibles(const tConjunto &c)
+{
+
+	for (int i = 0; i < MAX; i++)
+		if (c.elementos[i] == false)
+			cout << i + 1 << " ";
+}

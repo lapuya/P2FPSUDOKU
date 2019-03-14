@@ -19,3 +19,4 @@ void borraElemento(tConjunto & c, int e);
 int numElems(const tConjunto & c);
 bool esUnitario(const tConjunto &c, int & e);
 void mostrar(const tConjunto & c);
+void mostrarValoresPosibles(const tConjunto &c);

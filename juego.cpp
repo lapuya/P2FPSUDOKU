@@ -7,6 +7,7 @@ using namespace std;
 void mostrarInformacionSudoku(const tSudoku & sudoku);
 void mostrarSubmenuJugar();
 int submenuJuego();
+void introducirFilaCol(int & fila, int & col);
 
 void iniciaJuego(tJuego & juego, const tSudoku & sudoku){
 	juego.tablero_relleno = false;
@@ -45,26 +46,34 @@ int jugarUnSudoku(const tSudoku & sudoku){
 
 			if (opcion == 1) {
 				introducirFilaCol(fila, col);
+				actualizarValoresPosiblesCasilla(juego.tablero, fila, col);
 				mostrarPosibles(juego.tablero, fila, col);
 			}
 			else if (opcion == 2) {
+				cout << "Introduzca un numero: ";
+				cin >> c;
 				introducirFilaCol(fila, col);
 				if (!ponerNum(juego.tablero, fila, col, c)) {
 					cout << "No se ha podido poner el numero" << endl;
 				}
 			}
 			else if (opcion == 3) {
-				borrarNum(juego.tablero, fila, col);
+				if (!borrarNum(juego.tablero, fila, col)) {
+					cout << "No se ha podido borrar el numero" << endl;
+				}
 			}
 			else if (opcion == 4) {
-
+				if (!cargaJuego(juego, sudoku)) {
+					cout << "No se ha podido reiniciar el tablero" << endl;
+				}
 			}
 			else if (opcion == 5) {
 				rellenarSimples(juego.tablero);
 			}
 			else {
-				// Puntos igual a 0
+				//sudoku.puntos = 0;
 			}
+			if(!resuelto)
 			opcion = submenuJuego();
 		}
 	}
@@ -102,4 +111,9 @@ int submenuJuego(){
 	}
 
 	return opcion;
+}
+
+void asignarNombrePuntos(tSudoku &sudoku, string nombre, int puntos) {
+	sudoku.nombre_archivo = nombre;
+	sudoku.puntos = puntos;
 }

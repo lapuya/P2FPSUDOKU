@@ -19,3 +19,4 @@ bool borrarNum(tTablero tablero, int fila, int col);
 bool tableroLleno(const tTablero tablero);
 void mostrarPosibles(const tTablero tablero, int fila, int col);
 void rellenarSimples(tTablero tablero);
+void actualizarValoresPosiblesCasilla(tTablero tablero, int fila, int col);

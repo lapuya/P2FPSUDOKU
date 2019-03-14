@@ -23,3 +23,4 @@ void iniciaJuego(tJuego & juego, const tSudoku & sudoku);
 void mostrarJuego(const tJuego & juego);
 bool cargaJuego(tJuego & juego, const tSudoku & sudoku);
 int jugarUnSudoku(const tSudoku & sudoku);
+void asignarNombrePuntos(tSudoku &sudoku, string nombre, int puntos);

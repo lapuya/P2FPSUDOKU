@@ -11,7 +11,7 @@ void colorFondo(int color);
 void iniciaCasilla(tCasilla & casilla)
 {
 	casilla.estado_casilla = c_vacia;
-	cjto_lleno(casilla.conjunto);
+	cjto_vacio(casilla.conjunto);
 }
 
 void rellenaCasilla(tCasilla & casilla, char c, bool fija = false)
@@ -21,6 +21,7 @@ void rellenaCasilla(tCasilla & casilla, char c, bool fija = false)
 	if (fija && c != ' ') {
 		casilla.estado_casilla = c_fija;
 		casilla.numero = numEquivalente;
+		annadeElemento(casilla.conjunto, casilla.numero);
 	}
 	else if (!fija && c != ' ') {
 		casilla.estado_casilla = c_rellena;
@@ -93,6 +94,11 @@ void colorFondo(int color) {
 	SetConsoleTextAttribute(handle, 15 | (color << 4));
 }
 
-void mostrarValores(const tCasilla & casilla){
-	mostrar(casilla.conjunto);
+void mostrarValores(const tCasilla & casilla) {
+	mostrarValoresPosibles(casilla.conjunto);
+}
+
+void actualizarValor(tCasilla & casilla, tCasilla & casilla2) {
+	int numero = casilla2.numero;
+	annadeElemento(casilla.conjunto, numero);
 }
