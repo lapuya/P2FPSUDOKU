@@ -9,23 +9,22 @@ void mostrarSubmenuJugar();
 int submenuJuego();
 void introducirFilaCol(int & fila, int & col);
 
-void iniciaJuego(tJuego & juego, const tSudoku & sudoku){
+void iniciaJuego(tJuego & juego, const tSudoku & sudoku) {
 	juego.tablero_relleno = false;
 	juego.sudoku = sudoku;
 	iniciaTablero(juego.tablero);
 }
 
-void mostrarJuego(const tJuego & juego){
+void mostrarJuego(const tJuego & juego) {
 	mostrarInformacionSudoku(juego.sudoku);
 	dibujarTablero(juego.tablero);
 }
 
 void mostrarInformacionSudoku(const tSudoku & sudoku) {
-	cout << "Puntos: " << sudoku.puntos << endl;
-	cout << "Sudoku elegido: " << sudoku.nombre_archivo << endl;
+	cout << "Sudoku: " << sudoku.nombre_archivo << " Puntos: " << sudoku.puntos << endl;
 }
 
-bool cargaJuego(tJuego & juego, const tSudoku & sudoku){
+bool cargaJuego(tJuego & juego, const tSudoku & sudoku) {
 	bool actualizar = false;
 
 	if (cargarTablero(sudoku.nombre_archivo, juego.tablero))
@@ -34,20 +33,21 @@ bool cargaJuego(tJuego & juego, const tSudoku & sudoku){
 	return actualizar;
 }
 
-int jugarUnSudoku(const tSudoku & sudoku){
+int jugarUnSudoku(const tSudoku & sudoku) {
 	int opcion, fila, col, c;
 	tJuego juego;
-	bool resuelto = false;
 
 	iniciaJuego(juego, sudoku);
 	if (cargaJuego(juego, sudoku)) {
+		mostrarJuego(juego);
 		opcion = submenuJuego();
-		while (opcion != 0 || !resuelto) {
-
+		while (opcion != 0 || !tableroLleno(juego.tablero)) {
 			if (opcion == 1) {
 				introducirFilaCol(fila, col);
 				actualizarValoresPosiblesCasilla(juego.tablero, fila, col);
 				mostrarPosibles(juego.tablero, fila, col);
+				cout << endl;
+				mostrarJuego(juego);
 			}
 			else if (opcion == 2) {
 				cout << "Introduzca un numero: ";
@@ -56,25 +56,31 @@ int jugarUnSudoku(const tSudoku & sudoku){
 				if (!ponerNum(juego.tablero, fila, col, c)) {
 					cout << "No se ha podido poner el numero" << endl;
 				}
+				mostrarJuego(juego);
 			}
 			else if (opcion == 3) {
+				introducirFilaCol(fila, col);
 				if (!borrarNum(juego.tablero, fila, col)) {
 					cout << "No se ha podido borrar el numero" << endl;
 				}
+				mostrarJuego(juego);
 			}
 			else if (opcion == 4) {
 				if (!cargaJuego(juego, sudoku)) {
 					cout << "No se ha podido reiniciar el tablero" << endl;
 				}
+				mostrarJuego(juego);
 			}
 			else if (opcion == 5) {
 				rellenarSimples(juego.tablero);
+				mostrarJuego(juego);
 			}
 			else {
 				//sudoku.puntos = 0;
 			}
-			if(!resuelto)
-			opcion = submenuJuego();
+			if (tableroLleno(juego.tablero)) {
+				opcion = submenuJuego();
+			}
 		}
 	}
 
@@ -88,7 +94,7 @@ void introducirFilaCol(int & fila, int & col) {
 	cin >> col;
 }
 
-void mostrarSubmenuJugar(){
+void mostrarSubmenuJugar() {
 	cout << "1. Ver posibles valores de una casilla vacia" << endl;
 	cout << "2. Colocar valor en una casilla" << endl;
 	cout << "3. Borrar valor de una casilla" << endl;
@@ -98,7 +104,7 @@ void mostrarSubmenuJugar(){
 	cout << "Elige una opcion: ";
 }
 
-int submenuJuego(){
+int submenuJuego() {
 	int opcion;
 
 	mostrarSubmenuJugar();

@@ -25,6 +25,9 @@ bool cargarTablero(string nombreFichero, tTablero tablero) {
 	string linea;
 	char c;
 
+	cout << "Que sudoku quieres jugar: ";
+	cin >> nombreFichero;
+
 	entrada.open(nombreFichero);
 	abierto = entrada.is_open();
 	if (abierto)
@@ -59,29 +62,33 @@ void dibujarTablero(const tTablero tablero) {
 bool ponerNum(tTablero tablero, int fila, int col, int c) {
 	bool posible = false, fija;
 
-	if (comprobarFilaColumna(fila, col) && comprobarNumero(c) && comprobarCasillaVacia(tablero[fila][col])) {
-		rellenaCasilla(tablero[fila][col], c, fija = false);
+	if (comprobarFilaColumna(fila-1, col-1) && comprobarNumero(c) && comprobarCasillaVacia(tablero[fila-1][col-1])) {
+		rellenaCasilla(tablero[fila-1][col-1], c, fija = false);
 		posible = true;
 	}
-
-
 
 	return posible;
 }
 
 bool comprobarFilaColumna(int fila, int col) {
-	return fila >= 0 && fila < MAX_FILAS && col >= 0 && col < MAX_COLUMNAS;
+	return fila >= 0 && fila <= MAX_FILAS && col >= 0 && col <= MAX_COLUMNAS;
 }
 
 bool comprobarNumero(int c) {
-	return c >= 1 && c <= 9;
+	bool posible = false;
+
+	if (c >= 1 && c <= 9) { // Comprobar que c está entre los posibles
+		posible = true;
+	}
+
+	return posible;
 }
 
 bool borrarNum(tTablero tablero, int fila, int col) {
 	bool posible = false;
 
-	if (comprobarFilaColumna(fila, col) && comprobarCasillaRellena(tablero[fila][col])) {
-		iniciaCasilla(tablero[fila][col]);
+	if (comprobarFilaColumna(fila-1, col-1) && comprobarCasillaRellena(tablero[fila-1][col-1])) {
+		iniciaCasilla(tablero[fila-1][col-1]);
 		posible = true;
 	}
 
@@ -108,8 +115,8 @@ bool tableroLleno(const tTablero tablero) {
 }
 
 void mostrarPosibles(const tTablero tablero, int fila, int col) {
-	if (comprobarFilaColumna(fila, col)) {
-		mostrarValores(tablero[fila][col]);
+	if (comprobarFilaColumna(fila-1, col-1)) {
+		mostrarValores(tablero[fila-1][col-1]);
 	}
 	else {
 		cout << "Las coordenadas no estan dentro de Sudoku" << endl;

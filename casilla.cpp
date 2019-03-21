@@ -8,14 +8,12 @@ using namespace std;
 int charAEntero(char c);
 void colorFondo(int color);
 
-void iniciaCasilla(tCasilla & casilla)
-{
+void iniciaCasilla(tCasilla & casilla) {
 	casilla.estado_casilla = c_vacia;
 	cjto_vacio(casilla.conjunto);
 }
 
-void rellenaCasilla(tCasilla & casilla, char c, bool fija = false)
-{
+void rellenaCasilla(tCasilla & casilla, char c, bool fija = false) {
 	int numEquivalente = charAEntero(c);
 
 	if (fija && c != ' ') {
@@ -34,26 +32,25 @@ void rellenaCasilla(tCasilla & casilla, char c, bool fija = false)
 }
 
 int charAEntero(char c) {
-
 	int numero;
 
-	if (c == '0')
+	if (c == '0' || c == 0)
 		numero = 0;
-	else if (c == '1')
+	else if (c == '1' || c == 1)
 		numero = 1;
-	else if (c == '2')
+	else if (c == '2' || c == 2)
 		numero = 2;
-	else if (c == '3')
+	else if (c == '3' || c == 3)
 		numero = 3;
-	else if (c == '4')
+	else if (c == '4' || c == 4)
 		numero = 4;
-	else if (c == '5')
+	else if (c == '5' || c == 5)
 		numero = 5;
-	else if (c == '6')
+	else if (c == '6' || c == 6)
 		numero = 6;
-	else if (c == '7')
+	else if (c == '7' || c == 7)
 		numero = 7;
-	else if (c == '8')
+	else if (c == '8' || c == 8)
 		numero = 8;
 	else
 		numero = 9;
@@ -61,8 +58,7 @@ int charAEntero(char c) {
 	return numero;
 }
 
-void dibujaCasilla(const tCasilla & casilla)
-{
+void dibujaCasilla(const tCasilla & casilla) {
 	if (casilla.estado_casilla == c_fija) {
 		colorFondo(1);
 		cout << casilla.numero;
