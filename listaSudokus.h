@@ -17,3 +17,4 @@ typedef struct
 void creaListaVacia(tListaSudokus & lista);
 bool cargar(tListaSudokus & lista);
 void mostrar(const tListaSudokus & lista);
+void devolverPuntos(const tListaSudokus & lista, string nombre, int & puntos);

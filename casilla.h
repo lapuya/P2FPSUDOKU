@@ -20,3 +20,5 @@ bool comprobarCasillaVacia(const tCasilla & casilla);
 bool comprobarCasillaRellena(const tCasilla & casilla);
 void mostrarValores(const tCasilla & casilla);
 void actualizarValor(tCasilla & casilla, tCasilla & casilla2);
+bool comprobarValido(tCasilla &casilla, int c);
+void quitarNumero(tCasilla &casilla);

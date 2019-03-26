@@ -30,6 +30,7 @@ bool pertenece(const tConjunto & c, int e)
 			encontrado = true;
 		i++;
 	}
+
 	return encontrado;
 }
 

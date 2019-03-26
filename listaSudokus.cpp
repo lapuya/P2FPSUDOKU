@@ -41,3 +41,12 @@ void mostrar(const tListaSudokus & lista) {
 	for (int i = 0; i < lista.cont; i++)
 		mostrarInformacionSudoku(lista.array_sudokus[i]);
 }
+
+
+
+void devolverPuntos(const tListaSudokus & lista, string nombre, int & puntos) {
+	int i = 0;
+	while (i < lista.cont && !nombrePuntos(lista.array_sudokus[i], nombre, puntos)) {
+		i++;
+	}
+}

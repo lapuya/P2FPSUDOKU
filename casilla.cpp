@@ -98,3 +98,13 @@ void actualizarValor(tCasilla & casilla, tCasilla & casilla2) {
 	int numero = casilla2.numero;
 	annadeElemento(casilla.conjunto, numero);
 }
+
+bool comprobarValido(tCasilla &casilla, int c) {
+	return pertenece(casilla.conjunto, c);
+}
+
+void quitarNumero(tCasilla &casilla){
+	borraElemento(casilla.conjunto, casilla.numero);
+	casilla.estado_casilla = c_vacia;
+	casilla.numero = 0;
+}

@@ -42,10 +42,11 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 		mostrarJuego(juego);
 		opcion = submenuJuego();
 		while (opcion != 0 || !tableroLleno(juego.tablero)) {
+			//Pedimos la coordenada, actualizamos las casillas y realizamos la accion
 			if (opcion == 1) {
 				introducirFilaCol(fila, col);
-				actualizarValoresPosiblesCasilla(juego.tablero, fila, col);
-				mostrarPosibles(juego.tablero, fila, col);
+				actualizarValoresPosiblesCasilla(juego.tablero, fila-1, col-1);
+				mostrarPosibles(juego.tablero, fila-1, col-1);
 				cout << endl;
 				mostrarJuego(juego);
 			}
@@ -53,8 +54,10 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				cout << "Introduzca un numero: ";
 				cin >> c;
 				introducirFilaCol(fila, col);
+				actualizarValoresPosiblesCasilla(juego.tablero, fila-1, col-1);
 				if (!ponerNum(juego.tablero, fila, col, c)) {
 					cout << "No se ha podido poner el numero" << endl;
+
 				}
 				mostrarJuego(juego);
 			}
@@ -120,6 +123,19 @@ int submenuJuego() {
 }
 
 void asignarNombrePuntos(tSudoku &sudoku, string nombre, int puntos) {
+	//Asignamos al sudoku el nombre y los puntos corespondientes
 	sudoku.nombre_archivo = nombre;
 	sudoku.puntos = puntos;
+}
+
+bool nombrePuntos(const tSudoku & sudoku, string nombre, int & puntos){
+
+	//Función para encontrar y asignar el suoku y los puntos
+	bool encontrado = false;
+
+	if (sudoku.nombre_archivo == nombre){
+		puntos = sudoku.puntos;
+		encontrado = true;
+	}
+	return encontrado;
 }

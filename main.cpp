@@ -1,4 +1,4 @@
-// Beatriz ¡lvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz √Ålvarez de Arriba y Laurence Apuya Pangilinan
 
 #include <iostream>
 #include <string>
@@ -8,9 +8,11 @@ using namespace std;
 
 void mostrarMenu();
 int menu();
+int designarPuntos(string nombre);
 
 int main(){
-	int opcion, puntos;
+	int opcion, puntosFichero, puntos;
+	string nombreSudoku;
 	tListaSudokus lista;
 	tJuego juego;
 
@@ -19,6 +21,10 @@ int main(){
 		opcion = menu();
 		while (opcion != 0) {
 			mostrar(lista);
+			cout << "Elige el nombre del archivo que quieras jugar: ";
+			cin >> nombreSudoku;
+			devolverPuntos(lista, nombreSudoku, puntosFichero);
+			asignarNombrePuntos(juego.sudoku, nombreSudoku, puntosFichero);
 			puntos = jugarUnSudoku(juego.sudoku);
 			opcion = menu();
 		}

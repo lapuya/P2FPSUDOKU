@@ -25,9 +25,6 @@ bool cargarTablero(string nombreFichero, tTablero tablero) {
 	string linea;
 	char c;
 
-	cout << "Que sudoku quieres jugar: ";
-	cin >> nombreFichero;
-
 	entrada.open(nombreFichero);
 	abierto = entrada.is_open();
 	if (abierto)
@@ -62,9 +59,15 @@ void dibujarTablero(const tTablero tablero) {
 bool ponerNum(tTablero tablero, int fila, int col, int c) {
 	bool posible = false, fija;
 
-	if (comprobarFilaColumna(fila-1, col-1) && comprobarNumero(c) && comprobarCasillaVacia(tablero[fila-1][col-1])) {
-		rellenaCasilla(tablero[fila-1][col-1], c, fija = false);
-		posible = true;
+	//primero comprobamos si el numero se puede meter: si esta ya en el conjunto no se puede
+	if(comprobarValido(tablero[fila-1][col-1], c)){
+		cout << "El numero ya pertenece al conjunto" << endl;
+	}else {
+		//comprobamos que este dentro de las dimensiones, si el numero esta dentro del rango y si la casilla esta vacia
+		if (comprobarFilaColumna(fila-1, col-1) && comprobarNumero(c) && comprobarCasillaVacia(tablero[fila-1][col-1])) {
+			rellenaCasilla(tablero[fila-1][col-1], c, fija = false);
+			posible = true;
+		}
 	}
 
 	return posible;
@@ -88,10 +91,10 @@ bool borrarNum(tTablero tablero, int fila, int col) {
 	bool posible = false;
 
 	if (comprobarFilaColumna(fila-1, col-1) && comprobarCasillaRellena(tablero[fila-1][col-1])) {
-		iniciaCasilla(tablero[fila-1][col-1]);
+		//la función quita el numero del conjunto, pone su estado a vacio y su numero en 0
+		quitarNumero(tablero[fila-1][col-1]);
 		posible = true;
 	}
-
 	return posible;
 }
 
@@ -115,8 +118,9 @@ bool tableroLleno(const tTablero tablero) {
 }
 
 void mostrarPosibles(const tTablero tablero, int fila, int col) {
-	if (comprobarFilaColumna(fila-1, col-1)) {
-		mostrarValores(tablero[fila-1][col-1]);
+	//funcion que mostrara los valores posibles de una casilla. Se avisa si la coordenada introducida esta fuera
+	if (comprobarFilaColumna(fila, col)) {
+		mostrarValores(tablero[fila][col]);
 	}
 	else {
 		cout << "Las coordenadas no estan dentro de Sudoku" << endl;
@@ -135,7 +139,8 @@ void rellenarSimples(tTablero tablero) {
 
 	for (int i = 0; i < MAX_FILAS; i++) {
 		for (int j = 0; j < MAX_COLUMNAS; j++) {
-			if (esSimple(tablero[i][j], n)) {
+			//Si es simple y esta vacia, la rellenamos
+			if (esSimple(tablero[i][j], n) && comprobarCasillaVacia(tablero[i][j])) {
 				rellenaCasilla(tablero[i][j], n, fija = false);
 			}
 		}
@@ -144,12 +149,14 @@ void rellenarSimples(tTablero tablero) {
 
 void actualizarValoresColumnas(tTablero tablero, int fila, int col) {
 
+	//Nos vamos moviendo de casilla hacia la derecha
 	for (int j = 0; j < MAX_COLUMNAS; j++) {
-		actualizarValor(tablero[fila][col], tablero[fila][j]);
+		actualizarValor(tablero[fila][col],tablero[fila][j]);
 	}
 }
 
 void actualizarValoresFilas(tTablero tablero, int fila, int col) {
+	//Nos vamos moviendo de casilla hacia abajo
 	for (int i = 0; i < MAX_FILAS; i++) {
 		actualizarValor(tablero[fila][col], tablero[i][col]);
 	}
@@ -163,7 +170,7 @@ void actualizarValoresRegion(tTablero tablero, int fila, int col) {
 	else if (col < 9 && fila < 3)
 		actualizarRegion(0, 6, tablero, fila, col);
 	else if (col < 3 && fila < 6)
-		actualizarRegion(3, 0, tablero, fila, col);
+		actualizarRegion(0, 0, tablero, fila, col);
 	else if (col < 6 && fila < 6)
 		actualizarRegion(3, 3, tablero, fila, col);
 	else if (col < 9 && fila < 6)
