@@ -8,9 +8,8 @@ using namespace std;
 
 void mostrarMenu();
 int menu();
-int designarPuntos(string nombre);
 
-int main(){
+int main() {
 	int opcion, puntosFichero, puntos;
 	string nombreSudoku;
 	tListaSudokus lista;
@@ -33,13 +32,13 @@ int main(){
 	return 0;
 }
 
-void mostrarMenu(){
+void mostrarMenu() {
 	cout << "1. Jugar" << endl;
 	cout << "0. Salir" << endl;
 	cout << "Elige una opcion: ";
 }
 
-int menu(){
+int menu() {
 	int opcion;
 
 	mostrarMenu();

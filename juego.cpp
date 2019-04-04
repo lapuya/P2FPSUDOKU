@@ -42,11 +42,11 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 		mostrarJuego(juego);
 		opcion = submenuJuego();
 		while (opcion != 0 || !tableroLleno(juego.tablero)) {
-			//Pedimos la coordenada, actualizamos las casillas y realizamos la accion
+			// Pedimos la coordenada, actualizamos las casillas y realizamos la accion
 			if (opcion == 1) {
 				introducirFilaCol(fila, col);
-				actualizarValoresPosiblesCasilla(juego.tablero, fila-1, col-1);
-				mostrarPosibles(juego.tablero, fila-1, col-1);
+				actualizarValoresPosiblesCasilla(juego.tablero, fila - 1, col - 1);
+				mostrarPosibles(juego.tablero, fila - 1, col - 1);
 				cout << endl;
 				mostrarJuego(juego);
 			}
@@ -54,8 +54,8 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				cout << "Introduzca un numero: ";
 				cin >> c;
 				introducirFilaCol(fila, col);
-				actualizarValoresPosiblesCasilla(juego.tablero, fila-1, col-1);
-				if (!ponerNum(juego.tablero, fila, col, c)) {
+				actualizarValoresPosiblesCasilla(juego.tablero, fila - 1, col - 1);
+				if (!ponerNum(juego.tablero, fila - 1, col - 1, c)) {
 					cout << "No se ha podido poner el numero" << endl;
 
 				}
@@ -63,7 +63,7 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 			}
 			else if (opcion == 3) {
 				introducirFilaCol(fila, col);
-				if (!borrarNum(juego.tablero, fila, col)) {
+				if (!borrarNum(juego.tablero, fila - 1, col - 1)) {
 					cout << "No se ha podido borrar el numero" << endl;
 				}
 				mostrarJuego(juego);
@@ -77,9 +77,6 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 			else if (opcion == 5) {
 				rellenarSimples(juego.tablero);
 				mostrarJuego(juego);
-			}
-			else {
-				//sudoku.puntos = 0;
 			}
 			if (tableroLleno(juego.tablero)) {
 				opcion = submenuJuego();
@@ -128,14 +125,27 @@ void asignarNombrePuntos(tSudoku &sudoku, string nombre, int puntos) {
 	sudoku.puntos = puntos;
 }
 
-bool nombrePuntos(const tSudoku & sudoku, string nombre, int & puntos){
-
+bool nombrePuntos(const tSudoku & sudoku, string nombre, int & puntos) {
 	//Función para encontrar y asignar el suoku y los puntos
 	bool encontrado = false;
 
-	if (sudoku.nombre_archivo == nombre){
+	if (sudoku.nombre_archivo == nombre) {
 		puntos = sudoku.puntos;
 		encontrado = true;
 	}
 	return encontrado;
+}
+
+void escribir(const tSudoku &sudoku, string & nombre, int & puntos) {
+	//funcion que extrae el nombre y los puntos del sudoku para escribirlo en el fichero
+	nombre = sudoku.nombre_archivo;
+	puntos = sudoku.puntos;
+}
+
+string devolverNombre(const tSudoku &sudoku) {
+	return sudoku.nombre_archivo;
+}
+
+int devolverPuntos(const tSudoku &sudoku) {
+	return sudoku.puntos;
 }

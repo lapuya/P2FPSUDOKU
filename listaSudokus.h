@@ -18,3 +18,7 @@ void creaListaVacia(tListaSudokus & lista);
 bool cargar(tListaSudokus & lista);
 void mostrar(const tListaSudokus & lista);
 void devolverPuntos(const tListaSudokus & lista, string nombre, int & puntos);
+bool guardar(const tListaSudokus &lista);
+bool registrarSudoku(tListaSudokus &lista);
+bool buscarFichero(const tListaSudokus &lista, string nombreFich);
+int buscarPos(const tListaSudokus &lista, const tSudoku &sudoku);
