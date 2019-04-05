@@ -34,8 +34,7 @@ bool menor(const tJugador & j1, const tJugador & j2) {
 }
 
 void mostrarJugador(const tJugador & jugador) {
-	cout << "Jugador: " << jugador.identificador << endl;
-	cout << "Puntos: " << jugador.puntos << endl;
+	cout << "Jugador: " << jugador.identificador << " Puntos: " << jugador.puntos << endl;
 }
 
 string devolverIdentificadorJugador(const tJugador &jugador) {
