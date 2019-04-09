@@ -1,4 +1,4 @@
-// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
 
 #include "tablero.h"
 #include "casilla.h"
@@ -8,6 +8,7 @@ using namespace std;
 
 bool comprobarFilaColumna(int fila, int col);
 bool comprobarNumero(int c);
+void actualizarValoresPosiblesCasilla(tTablero tablero, int fila, int col);
 void actualizarValoresColumnas(tTablero  tablero, int fila, int col);
 void actualizarValoresFilas(tTablero tablero, int fila, int col);
 void actualizarValoresRegion(tTablero tablero, int fila, int col);
@@ -95,21 +96,20 @@ bool borrarNum(tTablero tablero, int fila, int col) {
 }
 
 bool tableroLleno(const tTablero tablero) { // MIRAR
-	bool relleno = false;
+	bool relleno = true;
 	int i = 0;
 
-	while (i < MAX_FILAS && !relleno) {
+	while (i < MAX_FILAS && relleno) {
 		int j = 0;
-		while (j < MAX_COLUMNAS && !relleno) {
+		while (j < MAX_COLUMNAS && relleno) {
 			if (comprobarCasillaVacia(tablero[i][j]))
-				relleno = true;
+				relleno = false;
 			else
 				j++;
 		}
-		if (!relleno)
+		if (relleno)
 			i++;
 	}
-
 	return relleno;
 }
 
@@ -170,6 +170,14 @@ char enteroAChar(int n) {
 	return c;
 }
 
+void actualizarTablero(tTablero &tablero){
+	for(int i = 0; i < MAX_FILAS; i++){
+		for(int j = 0; j < MAX_COLUMNAS; j++){
+			actualizarValoresPosiblesCasilla(tablero, i, j);
+		}
+	}
+}
+
 void actualizarValoresColumnas(tTablero tablero, int fila, int col) {
 	// Nos vamos moviendo de casilla hacia la derecha
 	for (int j = 0; j < MAX_COLUMNAS; j++) {
@@ -185,24 +193,27 @@ void actualizarValoresFilas(tTablero tablero, int fila, int col) {
 }
 
 void actualizarValoresRegion(tTablero tablero, int fila, int col) {
-	if (col < 3 && fila < 3)
-		actualizarRegion(0, 0, tablero, fila, col);
-	else if (col < 6 && fila < 3)
-		actualizarRegion(0, 3, tablero, fila, col);
-	else if (col < 9 && fila < 3)
-		actualizarRegion(0, 6, tablero, fila, col);
-	else if (col < 3 && fila < 6)
-		actualizarRegion(0, 0, tablero, fila, col);
-	else if (col < 6 && fila < 6)
-		actualizarRegion(3, 3, tablero, fila, col);
-	else if (col < 9 && fila < 6)
-		actualizarRegion(3, 6, tablero, fila, col);
-	else if (col < 3 && fila < 9)
-		actualizarRegion(6, 0, tablero, fila, col);
-	else if (col < 6 && fila < 9)
-		actualizarRegion(6, 3, tablero, fila, col);
+
+	//las regiones van de izquierda a derecha, 3x3
+	//los dos primeros valores de actualizarRegion representan el punto de inicio de la subregion
+	if(fila <= 2 && col <= 2)
+		actualizarRegion(0, 0, tablero, fila, col); //primera region
+	else if(fila <= 2 && col <= 5)
+		actualizarRegion(0, 3, tablero, fila, col); //segunda region
+	else if(fila <= 2 && col <= 8)
+		actualizarRegion(0, 6, tablero, fila, col); //tercera region
+	else if(fila <= 5 && col <= 2)
+		actualizarRegion(3, 0, tablero, fila, col); //cuarta region
+	else if (fila <= 5 && col <= 5)
+		actualizarRegion(3, 3, tablero, fila, col); //quinta region
+	else if (fila <= 5 && col <= 8)
+		actualizarRegion(3, 6, tablero, fila, col); //sexta region
+	else if (fila <= 8 && col <= 2)
+		actualizarRegion(6, 2, tablero, fila, col); //septima region
+	else if (fila <= 8 && col <= 5)
+		actualizarRegion(6, 3, tablero, fila, col); //octava region
 	else
-		actualizarRegion(6, 6, tablero, fila, col);
+		actualizarRegion(6, 6, tablero, fila, col); //novena region
 
 }
 
@@ -210,4 +221,8 @@ void actualizarRegion(int x, int y, tTablero  tablero, int fila, int col) {
 	for (int i = x; i < x + 3; i++)
 		for (int j = y; j < y + 3; j++)
 			actualizarValor(tablero[fila][col], tablero[i][j]);
+}
+
+bool estaVacia(const tCasilla casilla){
+	return comprobarCasillaVacia(casilla);
 }

@@ -41,12 +41,16 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 	if (cargaJuego(juego, sudoku)) {
 		mostrarJuego(juego);
 		opcion = submenuJuego();
-		while (opcion != 0 || !tableroLleno(juego.tablero)) {
-			// Pedimos la coordenada, actualizamos las casillas y realizamos la accion
+		while (opcion != 0 && !tableroLleno(juego.tablero)) {
+			//actualizamos el tablero
+			actualizarTablero(juego.tablero);
+			//ejecutamos las acciones
 			if (opcion == 1) {
 				introducirFilaCol(fila, col);
-				actualizarValoresPosiblesCasilla(juego.tablero, fila - 1, col - 1);
-				mostrarPosibles(juego.tablero, fila - 1, col - 1);
+				if(!estaVacia(juego.tablero[fila][col]))				//para que solo muestre cuando la casilla este vacia
+					cout << "Esta casilla ya esta rellena" << endl;
+				else
+					mostrarPosibles(juego.tablero, fila - 1, col - 1);
 				cout << endl;
 				mostrarJuego(juego);
 			}
@@ -54,7 +58,6 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				cout << "Introduzca un numero: ";
 				cin >> c;
 				introducirFilaCol(fila, col);
-				actualizarValoresPosiblesCasilla(juego.tablero, fila - 1, col - 1);
 				if (!ponerNum(juego.tablero, fila - 1, col - 1, c)) {
 					cout << "No se ha podido poner el numero" << endl;
 
@@ -78,9 +81,10 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				rellenarSimples(juego.tablero);
 				mostrarJuego(juego);
 			}
-			if (tableroLleno(juego.tablero)) {
+			if (!tableroLleno(juego.tablero)) {
 				opcion = submenuJuego();
 			}
+
 		}
 	}
 

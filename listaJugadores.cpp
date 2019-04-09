@@ -1,4 +1,4 @@
-// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
 
 #include "listaJugadores.h"
 #include <fstream>
@@ -30,7 +30,7 @@ bool cargar(tListaJugadores & lista) {
 		}
 	}
 	else
-		cout << "Hubo problemas al abrir el archivo o no existe." << endl;
+		cout << "Hubo problemas al abrir el archivo de la lista de jugadores o no existe." << endl;
 
 	entrada.close();
 

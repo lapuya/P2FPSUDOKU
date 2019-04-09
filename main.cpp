@@ -1,4 +1,4 @@
-// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
 
 #include <iostream>
 #include <string>

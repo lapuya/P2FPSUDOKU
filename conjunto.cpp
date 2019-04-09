@@ -66,7 +66,7 @@ bool esUnitario(const tConjunto &c, int & e){
 	int aux = 0, i = 0;
 	// Buscamos cuantos elementos tiene el conjunto
 	while (i < MAX && aux <= 1){
-		if (c.elementos[i] == true){
+		if (c.elementos[i] == false){
 			aux++;
 			e = i + 1;
 		}

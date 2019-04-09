@@ -1,4 +1,4 @@
-// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
 
 #pragma once
 
@@ -19,4 +19,5 @@ bool borrarNum(tTablero tablero, int fila, int col);
 bool tableroLleno(const tTablero tablero);
 void mostrarPosibles(const tTablero tablero, int fila, int col);
 void rellenarSimples(tTablero tablero);
-void actualizarValoresPosiblesCasilla(tTablero tablero, int fila, int col);
+void actualizarTablero(tTablero &tablero);
+bool estaVacia(const tCasilla casilla);

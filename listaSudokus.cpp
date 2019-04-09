@@ -1,4 +1,4 @@
-// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
 
 #include "listaSudokus.h"
 #include <iostream>
@@ -29,7 +29,7 @@ bool cargar(tListaSudokus & lista) {
 		}
 	}
 	else
-		cout << "Hubo problemas al abrir el archivo o no existe." << endl;
+		cout << "Hubo problemas al abrir el archivo de la lista de sudokus o no existe." << endl;
 
 	entrada.close();
 
