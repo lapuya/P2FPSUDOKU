@@ -1,6 +1,7 @@
 // Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
 
 #include "juego.h"
+#include "listaJugadores.h"
 #include <iostream>
 using namespace std;
 
@@ -34,7 +35,7 @@ bool cargaJuego(tJuego & juego, const tSudoku & sudoku) {
 }
 
 int jugarUnSudoku(const tSudoku & sudoku) {
-	int opcion, fila, col, c;
+	int opcion, fila, col, c, puntos = 0;
 	tJuego juego;
 
 	iniciaJuego(juego, sudoku);
@@ -42,12 +43,12 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 		mostrarJuego(juego);
 		opcion = submenuJuego();
 		while (opcion != 0 && !tableroLleno(juego.tablero)) {
-			//actualizamos el tablero
+			// Actualizamos el tablero
 			actualizarTablero(juego.tablero);
-			//ejecutamos las acciones
+			// Ejecutamos las acciones
 			if (opcion == 1) {
 				introducirFilaCol(fila, col);
-				if(!estaVacia(juego.tablero[fila][col]))				//para que solo muestre cuando la casilla este vacia
+				if (!estaVacia(juego.tablero[fila - 1][col - 1]))	// Para que solo muestre cuando la casilla este vacia
 					cout << "Esta casilla ya esta rellena" << endl;
 				else
 					mostrarPosibles(juego.tablero, fila - 1, col - 1);
@@ -72,6 +73,7 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				mostrarJuego(juego);
 			}
 			else if (opcion == 4) {
+				iniciaJuego(juego, sudoku);
 				if (!cargaJuego(juego, sudoku)) {
 					cout << "No se ha podido reiniciar el tablero" << endl;
 				}
@@ -88,7 +90,11 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 		}
 	}
 
-	return sudoku.puntos;
+	if (tableroLleno(juego.tablero)) {
+		puntos = sudoku.puntos;
+	}
+
+	return puntos;
 }
 
 void introducirFilaCol(int & fila, int & col) {

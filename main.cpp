@@ -15,7 +15,7 @@ int main() {
 	string nombreSudoku;
 	tListaSudokus listaSudokus;
 	tJuego juego;
-	tListaJugadores listaJugadores;
+	tListaJugadores listaJugadores, listaJugadoresOrdenada;
 
 	creaListaVacia(listaSudokus);
 	crearListaVacia(listaJugadores);
@@ -29,13 +29,16 @@ int main() {
 				devolverPuntos(listaSudokus, nombreSudoku, puntosFichero);
 				asignarNombrePuntos(juego.sudoku, nombreSudoku, puntosFichero);
 				puntos = jugarUnSudoku(juego.sudoku);
+				if (puntos != 0) { // Si los puntos son distintos de 0 es que ha completado el tablero
+					puntuarJugador(listaJugadores, puntos);
+				}
 			}
 			else if (opcion == 2) {
 				mostrar(listaJugadores);
 			}
 			else if (opcion == 3) {
-				ordenarPorRanking(listaJugadores);
-				mostrar(listaJugadores);
+				listaJugadoresOrdenada = ordenarPorRanking(listaJugadores);
+				mostrar(listaJugadoresOrdenada);
 			}
 			else {
 				registrarSudoku(listaSudokus);
@@ -43,6 +46,8 @@ int main() {
 			opcion = menu();
 		}
 	}
+	guardar(listaJugadores);
+	guardar(listaSudokus);
 	system("pause");
 	return 0;
 }

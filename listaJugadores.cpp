@@ -5,6 +5,8 @@
 #include <iostream>
 using namespace std;
 
+void desplazarJugadores(tListaJugadores & lista, int pos);
+
 void crearListaVacia(tListaJugadores & lista) {
 	lista.cont = 0;
 }
@@ -23,7 +25,7 @@ bool cargar(tListaJugadores & lista) {
 		entrada >> identificador;
 		while (!entrada.eof() && i < MAX_JUGADORES) {
 			entrada >> puntos;
-			asignarIdentificadorPuntos(lista.array_jugadores[i] , identificador, puntos);
+			asignarIdentificadorPuntos(lista.array_jugadores[i], identificador, puntos);
 			lista.cont++;
 			i++;
 			entrada >> identificador;
@@ -39,7 +41,8 @@ bool cargar(tListaJugadores & lista) {
 
 void mostrar(const tListaJugadores & lista) {
 	for (int i = 0; i < lista.cont; i++) {
-		mostrarJugador(lista.array_jugadores[i]);
+		//mostrarJugador(lista.array_jugadores[i]);
+		cout << toString(lista.array_jugadores[i]) << endl;
 	}
 }
 
@@ -51,9 +54,9 @@ bool guardar(const tListaJugadores & lista) {
 
 	salida.open("listaJugadores.txt");
 	abierto = salida.is_open();
-	if (abierto){
+	if (abierto) {
 		for (int i = 0; i < lista.cont; i++) {
-			escribirJugador(lista.array_jugadores[i], identificador, puntos); // ESCRIBIR DE MANERA ORDENADA
+			escribirJugador(lista.array_jugadores[i], identificador, puntos);
 			salida << identificador << " " << puntos << endl;
 		}
 	}
@@ -75,30 +78,69 @@ void puntuarJugador(tListaJugadores & lista, int puntos) {
 		modificarJugador(lista.array_jugadores[pos], puntos);
 	}
 	else if (lista.cont < MAX_JUGADORES && !buscar(lista, identificador, pos)) {
+		lista.cont++;
+		desplazarJugadores(lista, pos);
 		asignarIdentificadorPuntos(lista.array_jugadores[pos], identificador, puntos);
 	}
 }
 
+void desplazarJugadores(tListaJugadores & lista, int pos) {
+	for (int i = lista.cont - 1; i >= pos; i--) {
+		lista.array_jugadores[i + 1] = lista.array_jugadores[i];
+	}
+}
+
 bool buscar(const tListaJugadores & lista, string id, int & pos) {
-	bool existe = false;
-	pos = 0;
-	while (pos < lista.cont && !existe) {
-		if (id == devolverIdentificadorJugador(lista.array_jugadores[pos])) {
-			existe = true;
+	int ini = 0, fin = lista.cont - 1, mitad;
+	bool encontrado = false;
+	while ((ini <= fin) && !encontrado) {
+		mitad = (ini + fin) / 2;
+		if (id == devolverIdentificadorJugador(lista.array_jugadores[mitad])) {
+			encontrado = true;
+			pos = mitad;
+		}
+		else if (id < devolverIdentificadorJugador(lista.array_jugadores[mitad])) {
+			fin = mitad - 1;
 		}
 		else {
-			pos++;
+			ini = mitad + 1;
 		}
 	}
-	return existe;
+	if (!encontrado) {
+		pos = ini;
+	}
+	return encontrado;
 }
 
 tListaJugadores ordenarPorRanking(const tListaJugadores & lista) {
 	tListaJugadores lista_ordenada = lista;
 	int i = 0;
+	string identificador1, identificador2;
+	int puntos1, puntos2;
 
-	while (i < lista_ordenada.cont-1 && menor(lista_ordenada.array_jugadores[i], lista_ordenada.array_jugadores[i + 1])) {
-		i++;
+	while (i < lista_ordenada.cont - 1) {
+		if (menor(lista_ordenada.array_jugadores[i], lista_ordenada.array_jugadores[i + 1])) {
+			i++;
+		}
+		else {
+			// Ordenacion por seleccion directa
+			for (int j = 0; j < lista_ordenada.cont - 1; j++) {
+				int menor = j;
+				for (int k = j + 1; k < lista_ordenada.cont; k++) {
+					escribirJugador(lista_ordenada.array_jugadores[k], identificador1, puntos1);
+					escribirJugador(lista_ordenada.array_jugadores[menor], identificador2, puntos2);
+					if (puntos1 < puntos2) {
+						menor = k;
+					}
+				}
+				if (menor > i) {
+					escribirJugador(lista_ordenada.array_jugadores[j], identificador1, puntos1);
+					escribirJugador(lista_ordenada.array_jugadores[menor], identificador2, puntos2);
+					asignarIdentificadorPuntos(lista_ordenada.array_jugadores[j], identificador2, puntos2);
+					asignarIdentificadorPuntos(lista_ordenada.array_jugadores[menor], identificador1, puntos1);
+				}
+			}
+		}
 	}
 
 	return lista_ordenada;

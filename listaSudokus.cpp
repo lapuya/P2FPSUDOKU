@@ -5,6 +5,8 @@
 #include <fstream>
 using namespace std;
 
+void desplazarSudokus(tListaSudokus & lista, int pos);
+
 void creaListaVacia(tListaSudokus & lista) {
 	lista.cont = 0;
 }
@@ -17,7 +19,7 @@ bool cargar(tListaSudokus & lista) {
 
 	entrada.open("listaSudokus.txt");
 	abierto = entrada.is_open();
-	if (abierto){
+	if (abierto) {
 		int i = 0;
 		entrada >> nombre;
 		while (!entrada.eof() && i < MAX_SUDOKUS) {
@@ -84,10 +86,22 @@ bool registrarSudoku(tListaSudokus &lista) {
 	if (!buscarFichero(lista, nombreFich)) {
 		asignarNombrePuntos(sudoku, nombreFich, puntosFich);
 		posInsertar = buscarPos(lista, sudoku);
-		asignarNombrePuntos(lista.array_sudokus[posInsertar], nombreFich, puntosFich);
-		posible_registrar = true;
+		if (lista.cont < MAX_SUDOKUS) {
+			desplazarSudokus(lista, posInsertar);
+			asignarNombrePuntos(lista.array_sudokus[posInsertar], nombreFich, puntosFich);
+			posible_registrar = true;
+			lista.cont++;
+		}
+		else
+			cout << "Lista llena, no se puede insertar un nuevo sudoku" << endl;
 	}
 	return posible_registrar;
+}
+
+void desplazarSudokus(tListaSudokus & lista, int pos) {
+	for (int i = lista.cont - 1; i >= pos; i--) {
+		lista.array_sudokus[i + 1] = lista.array_sudokus[i];
+	}
 }
 
 bool buscarFichero(const tListaSudokus &lista, string nombreFich) {
@@ -104,7 +118,7 @@ bool buscarFichero(const tListaSudokus &lista, string nombreFich) {
 	return encontrado;
 }
 
-int buscarPos(const tListaSudokus &lista, const tSudoku &sudoku) {
+int buscarPos(const tListaSudokus & lista, const tSudoku & sudoku) {
 	int puntos, puntosLista, ini = 0, fin = lista.cont - 1, mitad, pos;
 	bool encontrado = false;
 	string nombre, nombreLista;
@@ -131,6 +145,10 @@ int buscarPos(const tListaSudokus &lista, const tSudoku &sudoku) {
 		else {
 			ini = mitad + 1;
 		}
+	}
+
+	if (!encontrado) {
+		pos = ini;
 	}
 
 	return pos;
