@@ -1,13 +1,11 @@
 // Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
 
+#include "checkML.h"
 #include "jugador.h"
 #include <iostream>
 
 string toString(tJugador jugador) {
-	int puntos;
-
-	puntos = jugador.puntos;
-	string aCadena = to_string(puntos);
+	string aCadena = to_string(jugador.puntos);
 
 	return jugador.identificador + aCadena;
 }
@@ -31,10 +29,6 @@ bool menor(const tJugador & j1, const tJugador & j2) {
 	}
 
 	return menor;
-}
-
-void mostrarJugador(const tJugador & jugador) {
-	cout << "Jugador: " << jugador.identificador << " Puntos: " << jugador.puntos << endl;
 }
 
 string devolverIdentificadorJugador(const tJugador &jugador) {

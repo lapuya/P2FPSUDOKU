@@ -1,5 +1,7 @@
 // Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
 
+#include "checkML.h"
+
 #include <iostream>
 #include <string>
 #include "juego.h"
@@ -11,6 +13,7 @@ void mostrarMenu();
 int menu();
 
 int main() {
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF ); 
 	int opcion, puntosFichero, puntos;
 	string nombreSudoku;
 	tListaSudokus listaSudokus;
@@ -48,6 +51,7 @@ int main() {
 	}
 	guardar(listaJugadores);
 	guardar(listaSudokus);
+	borrarListaJugadores(listaJugadores);
 	system("pause");
 	return 0;
 }
