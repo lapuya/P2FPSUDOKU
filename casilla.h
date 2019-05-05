@@ -5,8 +5,7 @@
 
 typedef enum { c_vacia, c_fija, c_rellena } tEstadoCasilla;
 
-typedef struct
-{
+typedef struct{
 	tEstadoCasilla estado_casilla;
 	int numero;
 	tConjunto conjunto;

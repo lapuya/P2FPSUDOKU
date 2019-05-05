@@ -1,4 +1,4 @@
-// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
 
 #include "checkML.h"
 #include "listaJugadores.h"
@@ -7,6 +7,9 @@
 using namespace std;
 
 void desplazarJugadores(tListaJugadores & lista, int pos);
+bool buscar(const tListaJugadores &lista, string id, int &pos, int ini, int fin);
+void ampliar(tListaJugadores & lista);
+void copiarLista(const tListaJugadores & lista, tListaJugadores & copiaLista);
 
 void crearListaVacia(tListaJugadores & lista) {
 	lista.cont = 0;
@@ -28,13 +31,13 @@ bool cargar(tListaJugadores & lista) {
 	abierto = entrada.is_open();
 	if (abierto)
 	{
-		crearListaVacia(lista);
 		entrada >> identificador;
 		while (!entrada.eof()) {
 			if (lista.cont == lista.capacidad) {
-				ampliar(lista);
+				ampliar(lista); // Si es necesario ampliamos
 			}
 			entrada >> puntos;
+			lista.array_jugadores[lista.cont] = new tJugador;
 			asignarIdentificadorPuntos(*lista.array_jugadores[lista.cont], identificador, puntos);
 			lista.cont++;
 			entrada >> identificador;
@@ -46,6 +49,21 @@ bool cargar(tListaJugadores & lista) {
 	entrada.close();
 
 	return abierto;
+}
+
+void ampliar(tListaJugadores & lista) {
+	tArrayJugadores array_aux = lista.array_jugadores;
+	lista.capacidad = lista.capacidad * 2; // Aumentamos la capacidad
+	lista.array_jugadores = new tJugadorPtr[lista.capacidad];
+	for (int i = 0; i < lista.cont; i++) {
+		lista.array_jugadores[i] = array_aux[i];
+	}
+	for (int j = 0; j < lista.cont; j++) {
+		delete array_aux[j];
+	}
+	if (lista.array_jugadores == NULL) {
+		cout << "No hay memoria" << endl;
+	}
 }
 
 void mostrar(const tListaJugadores & lista) {
@@ -82,54 +100,61 @@ void puntuarJugador(tListaJugadores & lista, int puntos) {
 
 	cout << "Introduce el identificador: ";
 	cin >> identificador;
-	if (buscar(lista, identificador, pos)) {
+	if (buscar(lista, identificador, pos, 0, lista.cont-1)) {
+		// Si el jugador ya existe
 		modificarJugador(*lista.array_jugadores[pos], puntos);
 	}
-	else if (lista.cont < lista.capacidad && !buscar(lista, identificador, pos)) {
+	else {
+		// Si el jugador no existe
 		if (lista.cont == lista.capacidad) {
 			ampliar(lista);
 		}
-		lista.cont++;
 		desplazarJugadores(lista, pos);
 		asignarIdentificadorPuntos(*lista.array_jugadores[pos], identificador, puntos);
+		lista.cont++;
 	}
 }
 
-void desplazarJugadores(tListaJugadores & lista, int pos) {
-	for (int i = lista.cont - 1; i >= pos; i--) {
-		lista.array_jugadores[i + 1] = lista.array_jugadores[i];
-	}
-}
-
-bool buscar(const tListaJugadores & lista, string id, int & pos) {
-	int ini = 0, fin = lista.cont - 1, mitad;
+bool buscar(const tListaJugadores & lista, string id, int & pos, int ini, int fin) {
 	bool encontrado = false;
-	while ((ini <= fin) && !encontrado) {
-		mitad = (ini + fin) / 2;
-		if (id == devolverIdentificadorJugador(*lista.array_jugadores[mitad])) {
-			encontrado = true;
-			pos = mitad;
+	if (ini <= fin) {
+		int mitad = (ini + fin) / 2;
+		if (id < devolverIdentificadorJugador(*lista.array_jugadores[mitad])) {
+			encontrado = buscar(lista, id, pos, ini, mitad - 1);
 		}
-		else if (id < devolverIdentificadorJugador(*lista.array_jugadores[mitad])) {
-			fin = mitad - 1;
+		else if (devolverIdentificadorJugador(*lista.array_jugadores[mitad]) < id) {
+			encontrado = buscar(lista, id, pos, mitad + 1, fin);
 		}
 		else {
-			ini = mitad + 1;
+			// Encontrado
+			pos = mitad;
+			encontrado = true;
 		}
 	}
-	if (!encontrado) {
+	else {
 		pos = ini;
+		encontrado = false;
 	}
-
 	return encontrado;
 }
 
+void desplazarJugadores(tListaJugadores & lista, int pos) {
+	// Movemos los jugadores, para insertar uno nuevo
+	for (int i = lista.cont - 1; i >= pos; i--) {
+		lista.array_jugadores[i + 1] = new tJugador;
+		*lista.array_jugadores[i + 1] = *lista.array_jugadores[i];
+	}
+}
+
 tListaJugadores ordenarPorRanking(const tListaJugadores & lista) {
-	tListaJugadores lista_ordenada = lista;
+	tListaJugadores lista_ordenada;
 	int i = 0;
 	string identificador1, identificador2;
 	int puntos1, puntos2;
 
+	crearListaVacia(lista_ordenada);
+	copiarLista(lista, lista_ordenada);
+	// Ordenacion
 	while (i < lista_ordenada.cont - 1) {
 		if (menor(*lista_ordenada.array_jugadores[i + 1], *lista_ordenada.array_jugadores[i])) {
 			i++;
@@ -160,22 +185,20 @@ tListaJugadores ordenarPorRanking(const tListaJugadores & lista) {
 	return lista_ordenada;
 }
 
-void ampliar(tListaJugadores & lista) {
-	tArrayJugadores array_aux = lista.array_jugadores;
-	lista.capacidad = lista.capacidad * 2;
-	lista.array_jugadores = new tJugadorPtr[lista.capacidad];
-	for (int i = 0; i < lista.cont; i++) {
-		lista.array_jugadores[i] = array_aux[i];
-	}
-	for (int j = 0; j < lista.cont; j++) {
-		delete array_aux[j];
-	}
-	if (lista.array_jugadores == NULL) {
-		cout << "No hay memoria" << endl;
+void copiarLista(const tListaJugadores & lista, tListaJugadores & copiaLista) {
+	tJugador jugador;
+	copiaLista.capacidad = lista.capacidad;
+	copiaLista.cont = lista.cont;
+	copiaLista.array_jugadores = new tJugadorPtr[copiaLista.capacidad];
+	for (int i = 0; i < copiaLista.cont; i++) {
+		jugador = *lista.array_jugadores[i];
+		copiaLista.array_jugadores[i] = new tJugador;
+		*copiaLista.array_jugadores[i] = jugador;
 	}
 }
 
 void borrarListaJugadores(tListaJugadores & lista) {
+	// Liberamos memoria
 	for (int i = 0; i < lista.cont; i++) {
 		delete lista.array_jugadores[i];
 	}

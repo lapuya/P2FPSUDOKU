@@ -1,4 +1,4 @@
-// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
 
 #include "checkML.h"
 #include "tablero.h"
@@ -124,12 +124,6 @@ void mostrarPosibles(const tTablero tablero, int fila, int col) {
 	}
 }
 
-void actualizarValoresPosiblesCasilla(tTablero tablero, int fila, int col) {
-	actualizarValoresColumnas(tablero, fila, col);
-	actualizarValoresFilas(tablero, fila, col);
-	actualizarValoresRegion(tablero, fila, col);
-}
-
 void rellenarSimples(tTablero tablero) {
 	int n;
 	bool fija;
@@ -179,41 +173,45 @@ void actualizarTablero(tTablero &tablero) {
 	}
 }
 
+void actualizarValoresPosiblesCasilla(tTablero tablero, int fila, int col) {
+	actualizarValoresColumnas(tablero, fila, col);
+	actualizarValoresFilas(tablero, fila, col);
+	actualizarValoresRegion(tablero, fila, col);
+}
+
 void actualizarValoresColumnas(tTablero tablero, int fila, int col) {
 	// Nos vamos moviendo de casilla hacia la derecha
-	for (int j = 0; j < MAX_COLUMNAS; j++) {
+	for (int j = 0; j < MAX_COLUMNAS; j++)
 		actualizarValor(tablero[fila][col], tablero[fila][j]);
-	}
 }
 
 void actualizarValoresFilas(tTablero tablero, int fila, int col) {
 	// Nos vamos moviendo de casilla hacia abajo
-	for (int i = 0; i < MAX_FILAS; i++) {
+	for (int i = 0; i < MAX_FILAS; i++)
 		actualizarValor(tablero[fila][col], tablero[i][col]);
-	}
 }
 
 void actualizarValoresRegion(tTablero tablero, int fila, int col) {
-	//las regiones van de izquierda a derecha, 3x3
-	//los dos primeros valores de actualizarRegion representan el punto de inicio de la subregion
+	// Las regiones van de izquierda a derecha, 3x3
+	// Los dos primeros valores de actualizarRegion representan el punto de inicio de la subregion
 	if (fila <= 2 && col <= 2)
-		actualizarRegion(0, 0, tablero, fila, col); //primera region
+		actualizarRegion(0, 0, tablero, fila, col); // Primera region
 	else if (fila <= 2 && col <= 5)
-		actualizarRegion(0, 3, tablero, fila, col); //segunda region
+		actualizarRegion(0, 3, tablero, fila, col); // Segunda region
 	else if (fila <= 2 && col <= 8)
-		actualizarRegion(0, 6, tablero, fila, col); //tercera region
+		actualizarRegion(0, 6, tablero, fila, col); // Tercera region
 	else if (fila <= 5 && col <= 2)
-		actualizarRegion(3, 0, tablero, fila, col); //cuarta region
+		actualizarRegion(3, 0, tablero, fila, col); // Cuarta region
 	else if (fila <= 5 && col <= 5)
-		actualizarRegion(3, 3, tablero, fila, col); //quinta region
+		actualizarRegion(3, 3, tablero, fila, col); // Quinta region
 	else if (fila <= 5 && col <= 8)
-		actualizarRegion(3, 6, tablero, fila, col); //sexta region
+		actualizarRegion(3, 6, tablero, fila, col); // Sexta region
 	else if (fila <= 8 && col <= 2)
-		actualizarRegion(6, 0, tablero, fila, col); //septima region
+		actualizarRegion(6, 0, tablero, fila, col); // Septima region
 	else if (fila <= 8 && col <= 5)
-		actualizarRegion(6, 3, tablero, fila, col); //octava region
+		actualizarRegion(6, 3, tablero, fila, col); // Octava region
 	else
-		actualizarRegion(6, 6, tablero, fila, col); //novena region
+		actualizarRegion(6, 6, tablero, fila, col); // Novena region
 
 }
 

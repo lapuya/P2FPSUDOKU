@@ -6,6 +6,9 @@
 #include <iostream>
 using namespace std;
 
+void iniciaJuego(tJuego & juego, const tSudoku & sudoku);
+void mostrarJuego(const tJuego & juego);
+bool cargaJuego(tJuego & juego, const tSudoku & sudoku);
 void mostrarInformacionSudoku(const tSudoku & sudoku);
 void mostrarSubmenuJugar();
 int submenuJuego();
@@ -48,6 +51,7 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 			actualizarTablero(juego.tablero);
 			// Ejecutamos las acciones
 			if (opcion == 1) {
+				// Ver posibles valores de una casilla
 				introducirFilaCol(fila, col);
 				if (!estaVacia(juego.tablero[fila - 1][col - 1]))	// Para que solo muestre cuando la casilla este vacia
 					cout << "Esta casilla ya esta rellena" << endl;
@@ -57,16 +61,17 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				mostrarJuego(juego);
 			}
 			else if (opcion == 2) {
+				// Colocar valor en una casilla
 				cout << "Introduzca un numero: ";
 				cin >> c;
 				introducirFilaCol(fila, col);
 				if (!ponerNum(juego.tablero, fila - 1, col - 1, c)) {
 					cout << "No se ha podido poner el numero" << endl;
-
 				}
 				mostrarJuego(juego);
 			}
 			else if (opcion == 3) {
+				// Borrar valor de una casilla
 				introducirFilaCol(fila, col);
 				if (!borrarNum(juego.tablero, fila - 1, col - 1)) {
 					cout << "No se ha podido borrar el numero" << endl;
@@ -74,6 +79,7 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				mostrarJuego(juego);
 			}
 			else if (opcion == 4) {
+				// Reiniciar el tablero
 				iniciaJuego(juego, sudoku);
 				if (!cargaJuego(juego, sudoku)) {
 					cout << "No se ha podido reiniciar el tablero" << endl;
@@ -81,6 +87,7 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 				mostrarJuego(juego);
 			}
 			else if (opcion == 5) {
+				// Autocompletar celdas simples
 				rellenarSimples(juego.tablero);
 				mostrarJuego(juego);
 			}
@@ -92,17 +99,24 @@ int jugarUnSudoku(const tSudoku & sudoku) {
 	}
 
 	if (tableroLleno(juego.tablero)) {
-		puntos = sudoku.puntos;
+		puntos = sudoku.puntos; // Si el tablero se ha completado se guardan los puntos
 	}
 
 	return puntos;
 }
 
-void introducirFilaCol(int & fila, int & col) {
-	cout << "Introduzca la fila: ";
-	cin >> fila;
-	cout << "Introduzca la columna: ";
-	cin >> col;
+int submenuJuego() {
+	int opcion;
+
+	mostrarSubmenuJugar();
+	cin >> opcion;
+	while (opcion < 0 || opcion > 5){
+		cout << "Opcion incorrecta" << endl;
+		mostrarSubmenuJugar();
+		cin >> opcion;
+	}
+
+	return opcion;
 }
 
 void mostrarSubmenuJugar() {
@@ -115,29 +129,21 @@ void mostrarSubmenuJugar() {
 	cout << "Elige una opcion: ";
 }
 
-int submenuJuego() {
-	int opcion;
-
-	mostrarSubmenuJugar();
-	cin >> opcion;
-	while (opcion < 0 || opcion > 5)
-	{
-		cout << "Opcion incorrecta" << endl;
-		mostrarSubmenuJugar();
-		cin >> opcion;
-	}
-
-	return opcion;
+void introducirFilaCol(int & fila, int & col) {
+	cout << "Introduzca la fila: ";
+	cin >> fila;
+	cout << "Introduzca la columna: ";
+	cin >> col;
 }
 
 void asignarNombrePuntos(tSudoku &sudoku, string nombre, int puntos) {
-	//Asignamos al sudoku el nombre y los puntos corespondientes
+	// Asignamos al sudoku el nombre y los puntos corespondientes
 	sudoku.nombre_archivo = nombre;
 	sudoku.puntos = puntos;
 }
 
 bool nombrePuntos(const tSudoku & sudoku, string nombre, int & puntos) {
-	//Función para encontrar y asignar el suoku y los puntos
+	// Función para encontrar y asignar el sudoku y los puntos
 	bool encontrado = false;
 
 	if (sudoku.nombre_archivo == nombre) {
@@ -148,7 +154,7 @@ bool nombrePuntos(const tSudoku & sudoku, string nombre, int & puntos) {
 }
 
 void escribir(const tSudoku &sudoku, string & nombre, int & puntos) {
-	//funcion que extrae el nombre y los puntos del sudoku para escribirlo en el fichero
+	// Funcion que extrae el nombre y los puntos del sudoku para escribirlo en el fichero
 	nombre = sudoku.nombre_archivo;
 	puntos = sudoku.puntos;
 }

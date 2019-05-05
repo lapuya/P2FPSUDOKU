@@ -35,9 +35,7 @@ void rellenaCasilla(tCasilla & casilla, char c, bool fija = false) {
 int charAEntero(char c) {
 	int numero;
 	// Dado un caracter devolvemos el numero equivalente
-	if (c == '0' || c == 0)
-		numero = 0;
-	else if (c == '1' || c == 1)
+	if (c == '1' || c == 1)
 		numero = 1;
 	else if (c == '2' || c == 2)
 		numero = 2;
@@ -69,18 +67,22 @@ void dibujaCasilla(const tCasilla & casilla) {
 		colorFondo(4);
 		cout << casilla.numero;
 	}
-	else {
+	else
 		cout << " ";
-	}
 	colorFondo(0);
+}
+
+void colorFondo(int color) {
+	// Cambiar el color de fondo
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(handle, 15 | (color << 4));
 }
 
 bool esSimple(const tCasilla & casilla, int & numero) {
 	bool simple = false;
 	// Una casilla sera simple si esta vacia y tiene un unico valor posible
-	if (comprobarCasillaVacia(casilla) && esUnitario(casilla.conjunto, numero)) {
+	if (comprobarCasillaVacia(casilla) && esUnitario(casilla.conjunto, numero))
 		simple = true;
-	}
 
 	return simple;
 }
@@ -93,12 +95,6 @@ bool comprobarCasillaVacia(const tCasilla & casilla) {
 bool comprobarCasillaRellena(const tCasilla & casilla) {
 	// Comprobamos si el estado de la casilla es rellena
 	return casilla.estado_casilla == c_rellena;
-}
-
-void colorFondo(int color) {
-	// Cambiar el color de fondo
-	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(handle, 15 | (color << 4));
 }
 
 void mostrarValores(const tCasilla & casilla) {

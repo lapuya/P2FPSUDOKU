@@ -4,14 +4,16 @@
 #include "jugador.h"
 #include <iostream>
 
+bool operator<(const tJugador &opIzq, const tJugador &opDer);
+
 string toString(tJugador jugador) {
-	string aCadena = to_string(jugador.puntos);
+	string aCadena = to_string(jugador.puntos); // Pasamos los puntos a cadena
 
 	return jugador.identificador + aCadena;
 }
 
 void modificarJugador(tJugador & jugador, int puntos) {
-	jugador.puntos += puntos;
+	jugador.puntos += puntos; // Actualizamos los puntos
 }
 
 bool operator<(const tJugador & opIzq, const tJugador & opDer) {

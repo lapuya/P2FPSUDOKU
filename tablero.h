@@ -1,4 +1,4 @@
-// Beatriz Ălvarez de Arriba y Laurence Apuya Pangilinan
+// Beatriz Álvarez de Arriba y Laurence Apuya Pangilinan
 
 #pragma once
 
