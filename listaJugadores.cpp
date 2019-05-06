@@ -202,4 +202,7 @@ void borrarListaJugadores(tListaJugadores & lista) {
 	for (int i = 0; i < lista.cont; i++) {
 		delete lista.array_jugadores[i];
 	}
+	delete[] lista.array_jugadores;
+	lista.cont = 0;
+	lista.capacidad = 5;
 }

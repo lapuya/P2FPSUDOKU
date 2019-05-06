@@ -9,7 +9,7 @@ bool operator<(const tJugador &opIzq, const tJugador &opDer);
 string toString(tJugador jugador) {
 	string aCadena = to_string(jugador.puntos); // Pasamos los puntos a cadena
 
-	return jugador.identificador + aCadena;
+	return jugador.identificador + " " + aCadena;
 }
 
 void modificarJugador(tJugador & jugador, int puntos) {
