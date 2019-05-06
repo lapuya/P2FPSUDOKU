@@ -52,18 +52,14 @@ bool cargar(tListaJugadores & lista) {
 }
 
 void ampliar(tListaJugadores & lista) {
-	tArrayJugadores array_aux = lista.array_jugadores;
-	lista.capacidad = lista.capacidad * 2; // Aumentamos la capacidad
-	lista.array_jugadores = new tJugadorPtr[lista.capacidad];
+	int nuevaCapacidad = lista.capacidad * 2;
+	tArrayJugadores array_aux = new tJugadorPtr[nuevaCapacidad];
 	for (int i = 0; i < lista.cont; i++) {
-		lista.array_jugadores[i] = array_aux[i];
+		array_aux[i] = lista.array_jugadores[i];
 	}
-	for (int j = 0; j < lista.cont; j++) {
-		delete array_aux[j];
-	}
-	if (lista.array_jugadores == NULL) {
-		cout << "No hay memoria" << endl;
-	}
+	delete[]lista.array_jugadores;
+	lista.array_jugadores = array_aux;
+	lista.capacidad = nuevaCapacidad;
 }
 
 void mostrar(const tListaJugadores & lista) {
